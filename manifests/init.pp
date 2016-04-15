@@ -430,7 +430,7 @@ class docker(
   }
 
   if $selinux_enabled {
-    validate_re($selinux_enabled, '^(true|false)$', 'selinux_enabled must be true or false')
+    validate_bool($selinux_enabled)
   }
 
   if $storage_driver {
