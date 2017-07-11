@@ -45,16 +45,6 @@ define docker::image(
       content => template('docker/update_docker_image.sh.erb'),
     }
   )
-  # Wrapper used to update containers based on passed label
-  ensure_resource('file', '/usr/local/bin/update_docker_service.sh',
-    {
-      ensure  => $docker::params::ensure,
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0555',
-      content => template('docker/update_docker_service.sh.erb'),
-    }
-  )
 
   if ($docker_file) and ($docker_dir) {
     fail 'docker::image must not have both $docker_file and $docker_dir set'
