@@ -399,6 +399,7 @@ class docker(
   $service_hasstatus                 = $docker::params::service_hasstatus,
   $service_hasrestart                = $docker::params::service_hasrestart,
   $userns_remap                      = $docker::params::userns_remap,
+  $custom_init_template              = $docker::params::custom_init_template,
 ) inherits docker::params {
 
   validate_string($version)

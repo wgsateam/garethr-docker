@@ -73,6 +73,7 @@ class docker::params {
   $storage_config_template           = 'docker/etc/sysconfig/docker-storage.erb'
   $compose_version                   = '1.5.2'
   $userns_remap                      = undef
+  $custom_init_template              = undef
 
   case $::osfamily {
     'Debian' : {
