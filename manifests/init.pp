@@ -403,6 +403,7 @@ class docker(
 ) inherits docker::params {
 
   validate_string($version)
+  validate_string($custom_init_template)
   validate_re($::osfamily, '^(Debian|RedHat|Archlinux|Gentoo)$', 'This module only works on Debian or Red Hat based systems or on Archlinux as on Gentoo.')
   validate_bool($manage_kernel)
   validate_bool($manage_package)

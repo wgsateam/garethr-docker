@@ -95,11 +95,15 @@ define docker::run(
   $remove_container_on_stop = true,
   $remove_volume_on_start = false,
   $remove_volume_on_stop = false,
-  $custom_init_template = $docker::params::custom_init_template,
+  $custom_init_template = undef,
 ) {
   include docker::params
   $docker_command = $docker::params::docker_command
   $service_name = $docker::params::service_name
+  $real_custom_init_template = $custom_init_template ? {
+    undef   => $docker::custom_init_template,
+    default => $custom_init_template,
+  }
 
   validate_re($image, '^[\S]*$')
   validate_re($title, '^[\S]*$')
@@ -284,8 +288,8 @@ define docker::run(
 
     }
     else {
-      $final_init_template = $custom_init_template ? {
-        String  => $custom_init_template,
+      $final_init_template = $real_custom_init_template ? {
+        String  => $real_custom_init_template,
         default => $init_template,
       }
       file { $initscript:
