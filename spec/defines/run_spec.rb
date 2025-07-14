@@ -658,7 +658,7 @@ require 'spec_helper'
     end
 
     context 'with extra_systemd_parameters' do
-      let(:params) { {'command' => 'command', 'image' => 'base', 'extra_systemd_parameters' => {'RestartSec' => 5}} }
+      let(:params) { {'command' => 'command', 'image' => 'base', 'extra_systemd_parameters' => { 'Service' => {'RestartSec' => 5}}} }
       if (systemd)
         it { should contain_file(initscript).with_content(/^RestartSec=5$/) }
       end
