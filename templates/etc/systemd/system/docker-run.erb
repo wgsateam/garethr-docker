@@ -16,6 +16,11 @@ Description=Daemon for <%= @title %>
 After=<%= @after.uniq.join(" ") %>
 Wants=<%= @wants.uniq.join(" ") %>
 Requires=<%= @requires.uniq.join(" ") %>
+<%- if @extra_systemd_parameters['Unit'] -%>
+<%- @extra_systemd_parameters['Unit'].each do |key,value| -%>
+<%= key %>=<%= value %>
+<%- end -%>
+<%- end -%>
 
 [Service]
 Restart=on-failure
@@ -33,8 +38,11 @@ ExecStartPre=-/usr/bin/<%= @docker_command %> kill <%= @sanitised_title %>
     <%= @image %> \
     <% if @command %> <%= @command %><% end %>
 <% end -%>
-<% @extra_systemd_parameters.each do |key, value| -%><%= key %>=<%= value %>
-<% end -%>
+<%- if @extra_systemd_parameters['Service'] -%>
+<%- @extra_systemd_parameters['Service'].each do |key,value| -%>
+<%= key %>=<%= value %>
+<%- end -%>
+<%- end -%>
 <%- if @pull_on_start %>ExecStartPre=-/usr/bin/<%= @docker_command %> pull <%= @image %>
 <% end -%>
 <%- if @remove_container_on_start %>
@@ -54,3 +62,8 @@ ExecStop=-/usr/bin/<%= @docker_command %> stop <%= @sanitised_title %>
 
 [Install]
 WantedBy=multi-user.target
+<%- if @extra_systemd_parameters['Install'] -%>
+<%- @extra_systemd_parameters['Install'].each do |key,value| -%>
+<%= key %>=<%= value %>
+<%- end -%>
+<%- end -%>
